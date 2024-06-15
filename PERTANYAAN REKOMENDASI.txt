@@ -1,0 +1,56 @@
+1. Analisis Keterlambatan Pengiriman: (DONE)
+
+- Analisis waktu pengiriman vs waktu estimasi pengiriman.
+Identifikasi pola keterlambatan pengiriman berdasarkan wilayah (kota, negara bagian).
+- Analisis faktor yang mempengaruhi keterlambatan pengiriman (misalnya, berat produk, dimensi produk, kategori produk).
+
+2. Analisis Kepuasan Pelanggan:
+- Korelasi antara skor ulasan dengan waktu pengiriman.
+- Analisis ulasan pelanggan untuk mengidentifikasi keluhan umum. (DONE)
+- Identifikasi produk dengan skor ulasan tertinggi dan terendah.
+
+3. Analisis Metode Pembayaran: (DONE)
+- Distribusi jenis metode pembayaran yang digunakan oleh pelanggan.
+- Korelasi antara jenis metode pembayaran dengan jumlah transaksi atau nilai transaksi.
+- Analisis preferensi metode pembayaran berdasarkan demografi (wilayah, usia jika data tersedia).
+
+
+4. Analisis Loyalitas Pelanggan:
+- Identifikasi pelanggan berulang dan frekuensi pembelian mereka.
+- Segmentasi pelanggan berdasarkan frekuensi dan nilai pembelian.
+- Analisis pola pembelian pelanggan baru vs pelanggan berulang.
+
+5. Analisis Produk:
+- Identifikasi produk terlaris dan produk dengan penjualan terendah. (DONE)
+- Analisis siklus hidup produk berdasarkan data penjualan bulanan.
+- Korelasi antara harga produk dengan volume penjualan.
+
+
+6. Analisis Pengiriman dan Biaya Pengiriman:
+- Analisis distribusi biaya pengiriman.
+- Korelasi antara biaya pengiriman dengan jarak pengiriman.
+- Identifikasi apakah ada hubungan antara biaya pengiriman dan ulasan pelanggan.
+
+
+7. Analisis Penjual:
+Evaluasi kinerja penjual berdasarkan jumlah penjualan, nilai penjualan, dan ulasan pelanggan.
+Analisis distribusi penjual berdasarkan wilayah.
+Identifikasi penjual dengan performa terbaik dan terburuk.
+
+
+8. Analisis Geospasial:
+- Visualisasi peta penjualan berdasarkan lokasi geografis (kota, negara bagian).
+- Analisis hotspot penjualan untuk mengidentifikasi area dengan penjualan tinggi.
+- Analisis hubungan antara lokasi penjual dan pembeli untuk optimasi logistik.
+
+
+9. Analisis Dimensi dan Berat Produk:
+- Korelasi antara dimensi/berat produk dengan biaya pengiriman. (DONE)
+- Analisis dampak dimensi/berat produk terhadap kecepatan pengiriman.
+- Identifikasi produk dengan masalah pengiriman (kerusakan, pengembalian, dll.) berdasarkan dimensi/berat.
+
+
+10. Analisis Fraud Detection:
+- Identifikasi pola transaksi mencurigakan.
+- Analisis frekuensi pembelian yang tidak biasa.
+- Pendeteksian anomali pada data pembayaran dan pengiriman. (DONE)

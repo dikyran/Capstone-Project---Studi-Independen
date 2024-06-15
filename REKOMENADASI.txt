@@ -1,0 +1,203 @@
+REKOMENADASI
+1. PENJUALAN BERDASARKAN JAM (AVERAGE: 566,318.49)
+SELECT 
+    EXTRACT(HOUR FROM o.order_purchase_timestamp) AS hour,
+    SUM(oi.price) AS total_sales
+FROM 
+    orders o
+JOIN 
+    order_items oi ON o.order_id = oi.order_id
+GROUP BY 
+    hour
+ORDER BY 
+    total_sales desc
+LIMIT 24;
+
+
+2. Jumlah Transaksi Berdasarkan Jenis Metode Pembayaran
+SELECT 
+    payment_type, 
+    COUNT(*) AS total_transactions
+FROM 
+    payments
+GROUP BY 
+    payment_type
+ORDER BY 
+    total_transactions DESC;
+
+
+3. Total Nilai Transaksi Berdasarkan Jenis Metode Pembayaran
+SELECT 
+    payment_type, 
+    SUM(payment_value) AS total_payment_value
+FROM 
+    payments
+GROUP BY 
+    payment_type
+ORDER BY 
+    total_payment_value DESC;
+
+
+
+4. Analisis Waktu Pengiriman vs Waktu Estimasi Pengiriman
+SELECT 
+    order_id,
+    order_delivered_customer_date AS actual_delivery_date,
+    order_estimated_delivery_date AS estimated_delivery_date,
+    EXTRACT(DAY FROM (order_delivered_customer_date - order_estimated_delivery_date)) AS delivery_delay_days
+FROM 
+    orders
+WHERE 
+    order_delivered_customer_date IS NOT NULL;
+
+
+
+
+5. Identifikasi Pola Keterlambatan Pengiriman Berdasarkan Wilayah
+SELECT 
+    o.order_id,
+    o.order_delivered_customer_date AS actual_delivery_date,
+    o.order_estimated_delivery_date AS estimated_delivery_date,
+    EXTRACT(DAY FROM (o.order_delivered_customer_date - o.order_estimated_delivery_date)) AS delivery_delay_days,
+    g.geolocation_city,
+    g.geolocation_state
+FROM 
+    orders o
+JOIN 
+    customers c ON o.customer_id = c.customer_id
+JOIN 
+    geolocation g ON c.customer_city = g.geolocation_city
+WHERE 
+    o.order_delivered_customer_date IS NOT NULL
+    AND EXTRACT(DAY FROM (o.order_delivered_customer_date - o.order_estimated_delivery_date)) > 0;
+
+
+
+6. Analisis ulasan pelanggan untuk mengidentifikasi keluhan umum
+SELECT 
+    review_comment_message,
+    COUNT(*) AS total_occurrences
+FROM 
+    reviews
+WHERE 
+    review_comment_message IS NOT NULL
+GROUP BY 
+    review_comment_message
+ORDER BY 
+    total_occurrences DESC;
+
+
+
+
+7. Produk Terlaris:
+SELECT 
+    oi.product_id,
+    p.product_category_name,
+    COUNT(*) AS total_sales
+FROM 
+    order_items oi
+INNER JOIN 
+    products p ON oi.product_id = p.product_id
+GROUP BY 
+    oi.product_id,
+    p.product_category_name
+ORDER BY 
+    total_sales DESC;
+
+
+
+8. Produk dengan Penjualan Terendah:
+SELECT 
+    product_id,
+    COUNT(*) AS total_sales
+FROM 
+    order_items
+GROUP BY 
+    product_id
+ORDER BY 
+    total_sales ASC
+LIMIT 1;
+
+
+9. Pendeteksian anomali pada data pembayaran dan pengiriman
+
+-- Query untuk mendeteksi anomali dalam data pembayaran
+SELECT 
+    *,
+    CASE 
+        WHEN payment_value < (SELECT AVG(payment_value) - 2 * STDDEV(payment_value) FROM payments) OR 
+             payment_value > (SELECT AVG(payment_value) + 2 * STDDEV(payment_value) FROM payments) THEN 'Anomaly'
+        ELSE 'Normal'
+    END AS payment_anomaly
+FROM 
+    payments;
+
+
+10. Visualisasi peta penjualan berdasarkan lokasi geografis
+
+SELECT 
+    g.geolocation_city,
+    g.geolocation_state,
+    COUNT(o.order_id) AS total_sales
+FROM 
+    orders o
+JOIN 
+    customers c ON o.customer_id = c.customer_id
+JOIN 
+    geolocation g ON c.customer_zip_code_prefix = g.geolocation_zip_code_prefix
+GROUP BY 
+    g.geolocation_city,
+    g.geolocation_state
+order by  total_sales desc
+
+
+
+11. Nilai korelasi Harga dan volume
+SELECT 
+    CORR(oi.price, oi.freight_value) AS correlation_price_freight
+FROM 
+    order_items oi;
+
+
+
+
+12. Korelasi antara harga produk dengan volume penjualan.
+SELECT 
+    oi.product_id,
+    p.product_category_name,
+    AVG(oi.price) AS average_price,
+    COUNT(oi.order_id) AS total_orders
+FROM 
+    order_items oi
+JOIN 
+    products p ON oi.product_id = p.product_id
+GROUP BY 
+    oi.product_id,
+    p.product_category_name
+ORDER BY 
+    total_orders DESC
+LIMIT 5
+
+
+
+
+
+
+13.   (HAMPIR SAMA DENGAN NO 10)
+SELECT
+    g.geolocation_city,
+    g.geolocation_state,
+    COUNT(*) AS total_sales
+FROM
+    order_items oi
+JOIN
+    orders o ON oi.order_id = o.order_id
+JOIN
+    customers c ON o.customer_id = c.customer_id
+JOIN
+    geolocation g ON c.customer_zip_code_prefix = g.geolocation_zip_code_prefix
+GROUP BY
+    g.geolocation_city,
+    g.geolocation_state
+ORDER BY
+    total_sales DESC;
